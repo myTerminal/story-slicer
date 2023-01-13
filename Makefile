@@ -62,7 +62,7 @@ manpage:
 	sudo rsync ./man/story-slicer.1 $(MANPREFIX)/man1/
 	@echo "Manpage created."
 
-install: primary-deps quicklisp binary place manpage service
+install: primary-deps quicklisp binary place manpage
 	@echo "story-slicer is now installed."
 
 uninstall:
