@@ -19,16 +19,19 @@
            (max-length (if (caddr args)
                            (parse-integer (caddr args) :junk-allowed t)
                            30))
+           (start-offset (if (cadddr args)
+                             (parse-integer (cadddr args) :junk-allowed t)
+                             0))
            (length-of-video (parse-string-to-float (get-result-from-system (concatenate 'string
                                                                                         "ffprobe -i "
                                                                                         filename
                                                                                         " -show_entries format=duration -v quiet -of csv=\"p=0\""))))
-           (number-of-slices (ceiling (/ length-of-video
-                                           max-length))))
+           (number-of-slices (ceiling (/ (- length-of-video start-offset)
+                                         max-length))))
       (loop for i from 1 to number-of-slices
             do (execute-in-system (concatenate 'string
                                                "ffmpeg -ss "
-                                               (write-to-string (* (1- i) max-length))
+                                               (write-to-string (+ (* (1- i) max-length) start-offset))
                                                " -i "
                                                filename
                                                " -t "

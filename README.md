@@ -37,6 +37,12 @@ By default, the video file `input.mp4` is split into several videos of 30 second
 
 The above command would split the video into several videos of 60 seconds each.
 
+One can also provide a start offset, which is the number of seconds to ignore from the input video. So, the above command would turn into:
+
+    story-slicer ~/Videos/input.mp4 ~/Downloads 60 15
+
+and it would ignore the first 15 seconds from the input video.
+
 ### Further help with commands
 
 To learn more about usage, refer to `manpage`:
