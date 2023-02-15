@@ -80,4 +80,3 @@ The other required programs are as follows:
 * Implement installation of ffmpeg automatically
 * Implement detection of file extension
 * Implement padding of slice numbers
-* Re-organize/simplify code
