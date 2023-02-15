@@ -28,25 +28,37 @@
            (start-offset (if (cadddr args)
                              (parse-integer (cadddr args) :junk-allowed t)
                              0))
-           (length-of-video (parse-string-to-float (get-result-from-system (concatenate 'string
-                                                                                        "ffprobe -i "
-                                                                                        input-filename
-                                                                                        " -show_entries format=duration -v quiet -of csv=\"p=0\""))))
+           (length-of-video (if (fifth args)
+                                (parse-integer (fifth args) :junk-allowed t)
+                                (parse-string-to-float (get-result-from-system (concatenate 'string
+                                                                                            "ffprobe -i "
+                                                                                            input-filename
+                                                                                            " -show_entries format=duration -v quiet -of csv=\"p=0\""))))
+             )
            (number-of-slices (ceiling (/ (- length-of-video start-offset)
                                          max-length))))
       (loop for i from 1 to number-of-slices
-            do (execute-in-system (concatenate 'string
-                                               "ffmpeg -ss "
-                                               (write-to-string (+ (* (1- i) max-length) start-offset))
-                                               " -i "
-                                               input-filename
-                                               " -t "
-                                               (write-to-string max-length)
-                                               " -c copy "
-                                               output-directory
-                                               "/slice_"
-                                               (write-to-string i)
-                                               ".mp4")))
+            do (let* ((start-seconds (+ (* (1- i) max-length) start-offset))
+                      (length-in-seconds (if (> (+ start-seconds max-length)
+                                                length-of-video)
+                                             (- length-of-video start-seconds)
+                                             max-length)))
+                 (log-to-stdout (concatenate 'string
+                                             (write-to-string length-in-seconds)
+                                             " from "
+                                             (write-to-string start-seconds)))
+                 (execute-in-system (concatenate 'string
+                                                 "ffmpeg -ss "
+                                                 (write-to-string start-seconds)
+                                                 " -i "
+                                                 input-filename
+                                                 " -t "
+                                                 (write-to-string length-in-seconds)
+                                                 " -c copy "
+                                                 output-directory
+                                                 "/slice_"
+                                                 (write-to-string i)
+                                                 ".mp4"))))
       (log-to-stdout (concatenate 'string
                                   "File split into "
                                   (write-to-string number-of-slices)
