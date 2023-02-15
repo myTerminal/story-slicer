@@ -31,7 +31,7 @@ A simple way to use *story-slicer* is to run it in a command-line terminal passi
 
     story-slicer ~/Videos/input.mp4 ~/Downloads
 
-By default, the video file `input.mp4` is split into several videos of 30 seconds length and placed in the specified output directory. You can also optionally specify the length of the individual slices as the second argument to the command.
+By default, the video file `input.mp4` is split into several videos of 30 seconds in length and placed in the specified output directory. You can also optionally specify the length of the individual slices as the second argument to the command.
 
     story-slicer ~/Videos/input.mp4 ~/Downloads 60
 
@@ -41,7 +41,13 @@ One can also provide a start offset, which is the number of seconds to ignore fr
 
     story-slicer ~/Videos/input.mp4 ~/Downloads 60 15
 
-and it would ignore the first 15 seconds from the input video.
+and it would ignore the first 15 seconds of the input video.
+
+Just the way you can skip a part of the video from the start, you can also omit a part towards the end.
+
+    story-slicer ~/Videos/input.mp4 ~/Downloads 60 15 250
+
+The above command splits the input video `input.mp4` into slices that are 60 seconds long, but skips the first 15 seconds of the input video, and ends the splitting process at 250 seconds.
 
 ### Further help with commands
 
