@@ -13,28 +13,34 @@ help:
 	@echo " - reinstall"
 	@echo " - update"
 
+crater-get:
+	@echo "Setting up Crater for temporary use..."
+	git clone https://github.com/crater-space/cli /tmp/crater-cli
+
 primary-deps:
 	@echo "Making sure SBCL is installed..."
 ifneq ($(shell command -v sbcl),)
 	@echo "SBCL found."
-else ifneq ($(shell command -v xbps-query),)
-	sudo xbps-install -Syu sbcl
-else ifneq ($(shell command -v pacman),)
-	sudo pacman -Sy sbcl
-else ifneq ($(shell command -v dnf),)
-	sudo dnf install -y sbcl
-else ifneq ($(shell command -v apt),)
-	sudo apt install -y sbcl
 else
-	@echo "Could not determine steps to install SBCL! Please install SBCL and try again."
-	exit 1
+	@echo "SBCL not found!"
+	@echo "Attemping to install SBCL using Crater..."
+	/tmp/crater-cli/crater install sbcl
 endif
-	@echo "Looking for external dependencies..."
-ifeq ($(shell command -v ffmpeg),)
+	@echo "Looking for 'ffmpeg'..."
+ifneq ($(shell command -v ffmpeg),)
+	@echo "'ffmpeg' found."
+else
 	@echo "'ffmpeg' not found!"
-	exit 1
+	@echo "Attemping to install 'ffmpeg' using Crater..."
+	/tmp/crater-cli/crater install ffmpeg
 endif
 	@echo "All required dependencies found."
+
+crater-remove:
+	@echo "Removing Crater..."
+	rm -rf /tmp/crater-cli
+
+req: crater-get primary-deps crater-remove
 
 quicklisp:
 ifeq ("$(wildcard $(QUICKLISP_DIR))", "")
@@ -63,7 +69,7 @@ manpage:
 	sudo rsync ./man/story-slicer.1 $(MANPREFIX)/man1/
 	@echo "Manpage created."
 
-install: primary-deps quicklisp binary place manpage
+install: req quicklisp binary place manpage
 	@echo "story-slicer is now installed."
 
 uninstall:
