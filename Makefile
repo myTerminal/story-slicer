@@ -66,7 +66,7 @@ place:
 manpage:
 	@echo "Creating manpage..."
 	mkdir -p $(MANPREFIX)
-	sudo rsync ./man/story-slicer.1 $(MANPREFIX)/man1/
+	sudo cp ./man/story-slicer.1 $(MANPREFIX)/man1/
 	@echo "Manpage created."
 
 install: req quicklisp binary place manpage
