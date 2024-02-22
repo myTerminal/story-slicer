@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 # Makes sure arguments with spaces are treated correctly
-story-slicer "$@"
+/opt/story-slicer-bin "$@"

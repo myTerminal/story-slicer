@@ -1,4 +1,5 @@
 SHELL = /bin/sh
+OPT_DIR = /opt
 
 ifeq ($(PREFIX),)
 	PREFIX := /usr/local
@@ -59,8 +60,10 @@ binary:
 
 place:
 	@echo "Installing binary..."
-	sudo install ./story-slicer-bin $(PREFIX)/bin/story-slicer
+	sudo mkdir $(OPT_DIR)/story-slicer
+	sudo install ./story-slicer-bin $(OPT_DIR)
 	sudo install ./scripts/* $(PREFIX)/bin/
+	sudo install ./wrapper $(PREFIX)/bin/story-slicer
 	@echo "Binary installed."
 
 manpage:
@@ -76,6 +79,7 @@ uninstall:
 	@echo "Uninstalling story-slicer..."
 	sudo rm $(PREFIX)/bin/story-slicer*
 	sudo rm $(MANPREFIX)/man1/story-slicer.1
+	sudo rm -rf $(OPT_DIR)/story-slicer
 	@echo "story-slicer has been uninstalled."
 
 reinstall: uninstall install
