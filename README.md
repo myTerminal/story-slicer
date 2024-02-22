@@ -27,7 +27,11 @@ There are a few different ways to get *story-slicer*.
 
 ## How to Use
 
-A simple way to use *story-slicer* is to run it in a command-line terminal passing in the path of the video file to be sliced and the output directory path.
+A simple way to use *story-slicer* is to run it in a command-line terminal passing in the path of the video file to be sliced.
+
+    story-slicer ~/Videos/input.mp4
+
+The above command would create slices of the video and place them within the current directory. You can optionally also specify the output directory where you expect the slices to be placed.
 
     story-slicer ~/Videos/input.mp4 ~/Downloads
 
