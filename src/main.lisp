@@ -8,10 +8,6 @@
   (unless (car arguments)
     (progn
       (log-to-stdout "Please specify an input file!")
-      (uiop:quit)))
-  (unless (cadr arguments)
-    (progn
-      (log-to-stdout "Please specify an output directory!")
       (uiop:quit))))
 
 (defun main ()
@@ -21,7 +17,8 @@
     (validate-inputs args)
 
     (let* ((input-filename (car args))
-           (output-directory (cadr args))
+           (output-directory (or (cadr args)
+                                 "./"))
            (max-length (if (caddr args)
                            (parse-integer (caddr args) :junk-allowed t)
                            30))
