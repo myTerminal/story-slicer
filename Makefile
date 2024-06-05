@@ -24,7 +24,7 @@ ifneq ($(shell command -v sbcl),)
 	@echo "SBCL found."
 else
 	@echo "SBCL not found!"
-	@echo "Attemping to install SBCL using Crater..."
+	@echo "Attempting to install SBCL using Crater..."
 	/tmp/crater-cli/crater install sbcl
 endif
 	@echo "Looking for 'ffmpeg'..."
@@ -32,7 +32,7 @@ ifneq ($(shell command -v ffmpeg),)
 	@echo "'ffmpeg' found."
 else
 	@echo "'ffmpeg' not found!"
-	@echo "Attemping to install 'ffmpeg' using Crater..."
+	@echo "Attempting to install 'ffmpeg' using Crater..."
 	/tmp/crater-cli/crater install ffmpeg
 endif
 	@echo "All required dependencies found."
